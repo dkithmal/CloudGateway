@@ -4,6 +4,9 @@ import com.amazon.sqs.javamessaging.AmazonSQSMessagingClientWrapper;
 import com.amazon.sqs.javamessaging.ProviderConfiguration;
 import com.amazon.sqs.javamessaging.SQSConnection;
 import com.amazon.sqs.javamessaging.SQSConnectionFactory;
+import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
+import com.amazonaws.regions.Region;
+import com.amazonaws.regions.Regions;
 import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
 
 import javax.jms.*;
@@ -13,10 +16,19 @@ import javax.jms.*;
  */
 public class SQSAsyncDemo {
 
+    public static final Region DEFAULT_REGION = Region.getRegion(Regions.AP_SOUTHEAST_1);
 
     public void runASyncQueueDemo() throws JMSException,InterruptedException{
 
-        SQSConnectionFactory connectionFactory = new SQSConnectionFactory(new ProviderConfiguration(), AmazonSQSClientBuilder.defaultClient());
+
+        SQSConnectionFactory connectionFactory =
+                SQSConnectionFactory.builder()
+                        .withRegion(DEFAULT_REGION)
+                        .withAWSCredentialsProvider(new DefaultAWSCredentialsProviderChain())
+                        .build();
+
+        //SQSConnectionFactory connectionFactory = new SQSConnectionFactory(new ProviderConfiguration(),
+        //  AmazonSQSClientBuilder.defaultClient());
 
         SQSConnection connection = connectionFactory.createConnection();
 
