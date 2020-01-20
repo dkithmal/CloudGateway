@@ -20,12 +20,12 @@ public class MainQueueMsgCompletionListener implements CompletionListener {
         } else {
             msgText = message.toString();
         }
-        System.out.println("Sent Message: " + msgText);
-        try {
+        System.out.println("Message: " + msgText);
+/*        try {
             System.out.println(message.getJMSMessageID());
         } catch (JMSException e) {
             e.printStackTrace();
-        }
+        }*/
     }
     @Override
     public void onException(Message message, Exception e) {
@@ -42,11 +42,11 @@ public class MainQueueMsgCompletionListener implements CompletionListener {
             msgText = message.toString();
         }
         System.out.println("Message: " + msgText);
-        try {
+/*        try {
             System.out.println(message.getJMSMessageID());
         } catch (JMSException ex) {
             ex.printStackTrace();
-        }
+        }*/
 
     }
 }

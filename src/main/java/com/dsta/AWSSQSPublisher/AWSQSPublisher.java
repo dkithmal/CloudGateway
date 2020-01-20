@@ -53,7 +53,6 @@ public class AWSQSPublisher {
         if(instance == null){
             instance = new AWSQSPublisher();
             instance.runPublisher();
-
         }
 
         TextMessage message =  session.createTextMessage(messageStr);
