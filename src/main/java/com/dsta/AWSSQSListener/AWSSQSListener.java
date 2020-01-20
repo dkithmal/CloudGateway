@@ -44,7 +44,7 @@ public class AWSSQSListener implements MessageListener {
 
     @Override
     public void onMessage(Message message) {
-        System.out.println("onMessage From AWS SQS");
+        System.out.println("onMessage from AWS SQS");
 
         String msgText = "";
         if (message instanceof TextMessage) {
@@ -57,6 +57,6 @@ public class AWSSQSListener implements MessageListener {
             msgText = message.toString();
         }
 
-        System.out.println(msgText);
+        System.out.println("Message: " + msgText);
     }
 }
