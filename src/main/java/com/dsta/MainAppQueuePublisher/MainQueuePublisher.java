@@ -17,7 +17,8 @@ public class MainQueuePublisher {
     // Defines the queue.
     public final static String QUEUE="queue/MainIntegrationQueue";
 
-    public static void createConnection(){
+    public  void publishMessage(){
+
         Context jndiContext = null;
         String url = "t3://192.168.88.13:7001";
 
@@ -50,22 +51,23 @@ public class MainQueuePublisher {
             e.printStackTrace();
         }
 
-
         try{
             connection = connectionFactory.createConnection();
             Session session = connection.createSession(false,Session.AUTO_ACKNOWLEDGE);
             producer = session.createProducer(dest);
 
             TextMessage message = session.createTextMessage();
-            message.setText("Testing Message");
 
-            producer.send(message);
+            int random = (int)(Math.random() * 50 + 1);
+            message.setText("Testing Message Id:" + random);
+
+            producer.send(message, new MainQueueMsgCompletionListener());
+
+
         } catch (JMSException e) {
             e.printStackTrace();
         }
 
     }
-
-
 
 }

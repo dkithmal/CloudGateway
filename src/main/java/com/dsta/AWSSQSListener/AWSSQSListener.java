@@ -10,12 +10,11 @@ import com.amazonaws.regions.Regions;
 
 import javax.jms.*;
 
-public class AWSSQSListener {
+public class AWSSQSListener implements MessageListener {
 
     public static final Region DEFAULT_REGION = Region.getRegion(Regions.AP_SOUTHEAST_1);
 
-    public void runListener() throws JMSException,InterruptedException{
-
+    public void startListen() throws JMSException,InterruptedException{
 
         SQSConnectionFactory connectionFactory =
                 SQSConnectionFactory.builder()
@@ -36,10 +35,28 @@ public class AWSSQSListener {
         Queue queue = session.createQueue("MyAsyncDemoQueue");
 
         MessageConsumer consumer = session.createConsumer(queue);
-        consumer.setMessageListener(new MyQueueListener());
-
+        consumer.setMessageListener(this);
 
         connection.start();
         Thread.sleep(1000);
+    }
+
+
+    @Override
+    public void onMessage(Message message) {
+        System.out.println("onMessage From AWS SQS");
+
+        String msgText = "";
+        if (message instanceof TextMessage) {
+            try {
+                msgText = ((TextMessage)message).getText();
+            } catch (JMSException e) {
+                e.printStackTrace();
+            }
+        } else {
+            msgText = message.toString();
+        }
+
+        System.out.println(msgText);
     }
 }

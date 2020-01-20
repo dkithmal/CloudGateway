@@ -50,7 +50,6 @@ public class MainAppQueueListener implements MessageListener{
             e.printStackTrace();
         }
 
-
         try{
             connection = connectionFactory.createConnection();
             Session session = connection.createSession(false,Session.AUTO_ACKNOWLEDGE);
@@ -67,7 +66,7 @@ public class MainAppQueueListener implements MessageListener{
 
     @Override
     public void onMessage(Message message) {
-        System.out.println("onMessage trigger");
+        System.out.println("onMessage from Main App Queue");
 
         String msgText = "";
         if (message instanceof TextMessage) {
@@ -79,7 +78,15 @@ public class MainAppQueueListener implements MessageListener{
         } else {
             msgText = message.toString();
         }
+        System.out.println("Message: " + msgText);
 
-        System.out.println(msgText);
+        try {
+            AWSQSPublisher.publishMessage(msgText);
+        } catch (JMSException | InterruptedException e) {
+            //TODO dk have to handle message not sent
+            System.out.println("Message couldn't sent to the AWS SQS");
+            System.out.println("Message: " + msgText);
+            //e.printStackTrace();
+        }
     }
 }

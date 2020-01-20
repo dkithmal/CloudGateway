@@ -1,8 +1,7 @@
-package com.dsta.MainApp;
+package com.dsta.SpringBootApp;
 
 import com.dsta.AWSSQSListener.AWSSQSListener;
 import com.dsta.AWSSQSPublisher.AWSQSPublisher;
-import com.dsta.AWSSQSPublisher.MainAppQueueListener;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -14,11 +13,12 @@ public class SpringBootApp {
         SpringApplication.run(SpringBootApp.class, args);
 
         try {
+            AWSQSPublisher.runPublisher();
             //AWSQSPublisher publisher = new AWSQSPublisher();
             //publisher.runPublisher();
 
-            AWSSQSListener listener = new AWSSQSListener();
-            listener.runListener();
+            //AWSSQSListener listener = new AWSSQSListener();
+            //listener.runListener();
 
             //MainAppQueueListener listener = new MainAppQueueListener();
             //listener.createListener();
