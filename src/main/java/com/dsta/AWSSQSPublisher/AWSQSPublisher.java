@@ -1,24 +1,19 @@
-package com.dsta.CloudGatewayJMS;
+package com.dsta.AWSSQSPublisher;
 
 import com.amazon.sqs.javamessaging.AmazonSQSMessagingClientWrapper;
-import com.amazon.sqs.javamessaging.ProviderConfiguration;
 import com.amazon.sqs.javamessaging.SQSConnection;
 import com.amazon.sqs.javamessaging.SQSConnectionFactory;
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
-import com.amazonaws.services.sqs.AmazonSQSClientBuilder;
 
 import javax.jms.*;
 
-/**
- * Created by dkith on 1/14/2020.
- */
-public class SQSAsyncDemo {
+public class AWSQSPublisher {
 
     public static final Region DEFAULT_REGION = Region.getRegion(Regions.AP_SOUTHEAST_1);
 
-    public void runASyncQueueDemo() throws JMSException,InterruptedException{
+    public void runPublisher() throws JMSException,InterruptedException{
 
 
         SQSConnectionFactory connectionFactory =
@@ -50,14 +45,12 @@ public class SQSAsyncDemo {
 
         System.out.println("JMS Message ID"+ message.getJMSMessageID());
 
-        MessageConsumer consumer = session.createConsumer(queue);
+        //MessageConsumer consumer = session.createConsumer(queue);
 
-        consumer.setMessageListener(new MyQueueListner());
+        //consumer.setMessageListener(new MyQueueListner());
 
         connection.start();
 
         Thread.sleep(1000);
-
-
     }
 }

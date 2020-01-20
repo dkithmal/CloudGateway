@@ -1,14 +1,12 @@
-package com.dsta.AWSSQSPublisherInterface;
-
-import com.amazonaws.services.dynamodbv2.xspec.S;
+package com.dsta.MainQueuePublisher;
 
 import javax.jms.*;
+import java.util.Hashtable;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import java.util.Hashtable;
 
-public class MainAppQueueListener implements MessageListener{
+public class MainQueuePublisher {
 
     // Defines the JNDI context factory.
     public final static String JNDI_FACTORY="weblogic.jndi.WLInitialContextFactory";
@@ -19,7 +17,7 @@ public class MainAppQueueListener implements MessageListener{
     // Defines the queue.
     public final static String QUEUE="queue/MainIntegrationQueue";
 
-    public  void createListener(){
+    public static void createConnection(){
         Context jndiContext = null;
         String url = "t3://192.168.88.13:7001";
 
@@ -32,7 +30,7 @@ public class MainAppQueueListener implements MessageListener{
         ConnectionFactory connectionFactory = null;
         Destination dest = null;
         Connection connection = null;
-        MessageConsumer consumer = null;
+        MessageProducer producer = null;
 
         try{
             jndiContext = new InitialContext(properties);
@@ -56,32 +54,18 @@ public class MainAppQueueListener implements MessageListener{
         try{
             connection = connectionFactory.createConnection();
             Session session = connection.createSession(false,Session.AUTO_ACKNOWLEDGE);
-            consumer = session.createConsumer(dest);
-            consumer.setMessageListener(this);
+            producer = session.createProducer(dest);
 
-            connection.start();
+            TextMessage message = session.createTextMessage();
+            message.setText("Testing Message");
 
+            producer.send(message);
         } catch (JMSException e) {
             e.printStackTrace();
         }
 
     }
 
-    @Override
-    public void onMessage(Message message) {
-        System.out.println("onMessage trigger");
 
-        String msgText = "";
-        if (message instanceof TextMessage) {
-            try {
-                msgText = ((TextMessage)message).getText();
-            } catch (JMSException e) {
-                e.printStackTrace();
-            }
-        } else {
-            msgText = message.toString();
-        }
 
-        System.out.println(msgText);
-    }
 }
