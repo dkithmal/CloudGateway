@@ -1,7 +1,6 @@
 package com.dsta.SpringBootApp;
 
-import com.dsta.AWSSQSListener.AWSSQSListener;
-import com.dsta.AWSSQSPublisher.AWSQSPublisher;
+import com.dsta.AWSSQSPublisher.AWSQSPublisherBase;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -13,7 +12,7 @@ public class SpringBootApp {
         SpringApplication.run(SpringBootApp.class, args);
 
         try {
-            AWSQSPublisher.runPublisher();
+            //AWSQSPublisherBase.runPublisher();
             //AWSQSPublisher publisher = new AWSQSPublisher();
             //publisher.runPublisher();
 

@@ -9,15 +9,14 @@ import com.amazonaws.regions.Regions;
 
 import javax.jms.*;
 
-public class AWSQSPublisher {
+public class AWSQSPublisherBase {
 
     public static final Region DEFAULT_REGION = Region.getRegion(Regions.AP_SOUTHEAST_1);
 
-    private static AWSQSPublisher instance;
-    private static MessageProducer producer;
-    private static Session session;
+    private MessageProducer producer;
+    private Session session;
 
-    public static void runPublisher() throws JMSException,InterruptedException{
+    public void runPublisher() throws JMSException,InterruptedException{
 
         SQSConnectionFactory connectionFactory =
                 SQSConnectionFactory.builder()
@@ -49,24 +48,13 @@ public class AWSQSPublisher {
         Thread.sleep(1000);
     }
 
-    public static void publishMessage(String messageStr) throws JMSException, InterruptedException {
-        if(instance == null){
-            instance = new AWSQSPublisher();
-            instance.runPublisher();
-        }
+    public void publishMessage(String messageStr) throws JMSException, InterruptedException {
 
         TextMessage message =  session.createTextMessage(messageStr);
         producer.send(message);
 
-        System.out.println("Message Sent Successfully to the AWS SQS ");
+        System.out.println("Message sent successfully to the AWS SQS ");
         System.out.println("Message: " + messageStr);
-
-/*        try {
-            TextMessage message =  session.createTextMessage(messageStr);
-            producer.send(message, new AWSSQSMsgCompletionListener());
-        } catch (JMSException e) {
-            e.printStackTrace();
-        }*/
     }
 
 }

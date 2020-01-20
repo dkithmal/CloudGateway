@@ -2,6 +2,7 @@ package com.dsta.SpringBootApp;
 
 
 import com.dsta.MainAppQueuePublisher.MainQueuePublisher;
+import com.dsta.MainAppQueuePublisher.MainQueuePublisherBase;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -13,8 +14,7 @@ public class PublishMsgToMainQueue {
         SpringApplication.run(PublishMsgToMainQueue.class, args);
 
         try {
-            MainQueuePublisher publisher = new MainQueuePublisher();
-            publisher.publishMessage();
+            MainQueuePublisher.getPublisher().publishMessage("");
         } catch (Exception e) {
             e.printStackTrace();
         }
