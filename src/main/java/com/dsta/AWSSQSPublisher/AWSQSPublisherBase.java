@@ -48,13 +48,23 @@ public class AWSQSPublisherBase {
         Thread.sleep(1000);
     }
 
-    public void publishMessage(String messageStr) throws JMSException, InterruptedException {
+    public void publishMessage(String messageStr, AWSSQSMsgCompletionListener completionListener)  {
 
-        TextMessage message =  session.createTextMessage(messageStr);
-        producer.send(message);
+        TextMessage message = null;
+        try {
+            message = session.createTextMessage(messageStr);
+        } catch (JMSException e) {
+            completionListener.onException(messageStr,e);
+            //e.printStackTrace();
+        }
 
-        System.out.println("Message sent successfully to the AWS SQS ");
-        System.out.println("Message: " + messageStr);
+        try {
+            producer.send(message);
+        } catch (JMSException e) {
+            completionListener.onException(messageStr,e);
+            //e.printStackTrace();
+        }
+
     }
 
 }

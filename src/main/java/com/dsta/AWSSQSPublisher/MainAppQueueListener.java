@@ -81,16 +81,9 @@ public class MainAppQueueListener implements MessageListener{
         System.out.println("Message: " + msgText);
 
 
-        //Submit message to aws SQS service
-        try {
-            AWSSQSPublisher.getPublisher().publishMessage(msgText);
+        //submit Message to AWS SQS
+        AWSSQSPublisher.getPublisher().publishMessage(msgText,new AWSSQSMsgCompletionListenerImpl());
 
-        } catch (JMSException | InterruptedException e) {
-            //TODO dk have to handle message not sent
-            System.out.println("Message couldn't sent to the AWS SQS");
-            System.out.println("Message: " + msgText);
-
-        }
     }
 
 }
