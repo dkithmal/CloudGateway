@@ -53,7 +53,5 @@ public class AWSSQSListener {
         connection.start();
 
         Thread.sleep(1000);
-
-
     }
 }

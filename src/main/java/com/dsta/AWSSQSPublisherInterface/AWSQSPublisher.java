@@ -53,7 +53,5 @@ public class AWSQSPublisher {
         connection.start();
 
         Thread.sleep(1000);
-
-
     }
 }
