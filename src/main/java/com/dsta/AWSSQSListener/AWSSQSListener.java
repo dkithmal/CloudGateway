@@ -23,9 +23,6 @@ public class AWSSQSListener {
                         .withAWSCredentialsProvider(new DefaultAWSCredentialsProviderChain())
                         .build();
 
-        //SQSConnectionFactory connectionFactory = new SQSConnectionFactory(new ProviderConfiguration(),
-        //  AmazonSQSClientBuilder.defaultClient());
-
         SQSConnection connection = connectionFactory.createConnection();
 
         AmazonSQSMessagingClientWrapper client = connection.getWrappedAmazonSQSClient();
@@ -38,20 +35,11 @@ public class AWSSQSListener {
 
         Queue queue = session.createQueue("MyAsyncDemoQueue");
 
-        //MessageProducer producer = session.createProducer(queue);
-
-        //TextMessage message =  session.createTextMessage("Text Message");
-
-        //producer.send(message);
-
-        //System.out.println("JMS Message ID"+ message.getJMSMessageID());
-
         MessageConsumer consumer = session.createConsumer(queue);
-
         consumer.setMessageListener(new MyQueueListener());
 
-        connection.start();
 
+        connection.start();
         Thread.sleep(1000);
     }
 }

@@ -1,4 +1,4 @@
-package com.dsta.MainQueuePublisher;
+package com.dsta.MainAppQueuePublisher;
 
 import javax.jms.*;
 import java.util.Hashtable;

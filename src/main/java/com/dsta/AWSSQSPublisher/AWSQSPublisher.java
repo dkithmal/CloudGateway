@@ -22,9 +22,6 @@ public class AWSQSPublisher {
                         .withAWSCredentialsProvider(new DefaultAWSCredentialsProviderChain())
                         .build();
 
-        //SQSConnectionFactory connectionFactory = new SQSConnectionFactory(new ProviderConfiguration(),
-        //  AmazonSQSClientBuilder.defaultClient());
-
         SQSConnection connection = connectionFactory.createConnection();
 
         AmazonSQSMessagingClientWrapper client = connection.getWrappedAmazonSQSClient();
@@ -39,18 +36,11 @@ public class AWSQSPublisher {
 
         MessageProducer producer = session.createProducer(queue);
 
-        TextMessage message =  session.createTextMessage("Text Message");
-
+        TextMessage message =  session.createTextMessage("Text Message DSTA");
         producer.send(message);
-
         System.out.println("JMS Message ID"+ message.getJMSMessageID());
 
-        //MessageConsumer consumer = session.createConsumer(queue);
-
-        //consumer.setMessageListener(new MyQueueListner());
-
-        connection.start();
-
-        Thread.sleep(1000);
+        //connection.start();
+        //Thread.sleep(1000);
     }
 }

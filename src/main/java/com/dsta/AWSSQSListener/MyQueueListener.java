@@ -9,7 +9,7 @@ public class MyQueueListener implements MessageListener {
     @Override
     public void onMessage(Message message) {
         System.out.println("SQS Listener Trigger");
-        
+
         String msgText = "";
         if (message instanceof TextMessage) {
             try {
