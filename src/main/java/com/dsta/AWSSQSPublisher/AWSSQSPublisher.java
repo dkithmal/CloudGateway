@@ -1,5 +1,7 @@
 package com.dsta.AWSSQSPublisher;
 
+import com.dsta.util.Util;
+
 import javax.jms.JMSException;
 
 public class AWSSQSPublisher {
@@ -16,6 +18,7 @@ public class AWSSQSPublisher {
     }
 
     public static void publishMessage(String message,AWSSQSMsgCompletionListenerImpl awssqsMsgCompletionListener){
+        String originalMessage = Util.getOriginalMessage(message);
 
         try {
             initPublisher();
@@ -26,11 +29,11 @@ public class AWSSQSPublisher {
 
         if(publisher != null){
             try {
-                publisher.publishMessage(message);
+                publisher.publishMessage(originalMessage);
             } catch (JMSException e) {
                 awssqsMsgCompletionListener.onException(message,e);
             }
         }
-
+        awssqsMsgCompletionListener.onCompletion(originalMessage);
     }
 }

@@ -50,12 +50,9 @@ public class AWSQSPublisherBase {
     }
 
     public void publishMessage(String messageStr) throws JMSException {
-
         TextMessage message = null;
-        String originalMessage = Util.getOriginalMessage(messageStr);
-        message = session.createTextMessage(originalMessage);
+        message = session.createTextMessage(messageStr);
         producer.send(message);
-
     }
 
 }

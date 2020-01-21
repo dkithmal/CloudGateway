@@ -11,11 +11,11 @@ import javax.jms.TextMessage;
 public class AWSSQSMsgCompletionListenerImpl implements AWSSQSMsgCompletionListener{
 
     @Override
-    public void onCompletion(Message message) {
+    public void onCompletion(String message) {
         System.out.println("Message sent successfully to the AWS SQS ");
 
         String msgText = "";
-        if (message instanceof TextMessage) {
+/*        if (message instanceof TextMessage) {
             try {
                 msgText = ((TextMessage)message).getText();
             } catch (JMSException e) {
@@ -23,8 +23,8 @@ public class AWSSQSMsgCompletionListenerImpl implements AWSSQSMsgCompletionListe
             }
         } else {
             msgText = message.toString();
-        }
-        System.out.println("Message: " + msgText);
+        }*/
+        System.out.println("Message: " + message);
     }
 
     @Override

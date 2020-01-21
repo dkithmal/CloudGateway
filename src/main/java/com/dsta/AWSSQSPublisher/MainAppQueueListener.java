@@ -54,7 +54,7 @@ public class MainAppQueueListener implements MessageListener{
 
         try{
             connection = connectionFactory.createConnection();
-            Session session = connection.createSession(false,Session.AUTO_ACKNOWLEDGE);
+            Session session = connection.createSession(false,Session.CLIENT_ACKNOWLEDGE);
             consumer = session.createConsumer(dest);
             consumer.setMessageListener(this);
 
@@ -84,7 +84,6 @@ public class MainAppQueueListener implements MessageListener{
 
         //submit Message to AWS SQS
         AWSSQSPublisher.publishMessage(msgText,new AWSSQSMsgCompletionListenerImpl());
-
     }
 
 }
