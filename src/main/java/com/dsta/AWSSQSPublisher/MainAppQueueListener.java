@@ -54,7 +54,7 @@ public class MainAppQueueListener implements MessageListener{
 
         try{
             connection = connectionFactory.createConnection();
-            Session session = connection.createSession(false,Session.CLIENT_ACKNOWLEDGE);
+            Session session = connection.createSession(false,Session.AUTO_ACKNOWLEDGE);
             consumer = session.createConsumer(dest);
             consumer.setMessageListener(this);
 

@@ -84,9 +84,7 @@ public class DeadLetterQueuePublisherBase {
             messageStr = "Testing Message Id:" + random;
         }
 
-        String messageString = Util.getWrappedMessageString(messageStr);
-
-        message.setText(messageString);
+        message.setText(messageStr);
         producer.send(message,new DeadLetterQueueMsgCompletionListener());
 
     }
