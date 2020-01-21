@@ -1,5 +1,6 @@
-package com.dsta.AWSSQSPublisher;
+package com.dsta.DeadLetterQueuePublisher;
 
+import com.dsta.MainAppQueuePublisher.MainQueueMsgCompletionListener;
 import com.dsta.util.Util;
 
 import javax.jms.*;
@@ -8,7 +9,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import java.util.Hashtable;
 
-public class MainAppQueueListener implements MessageListener{
+public class DeadLetterQueuePublisherBase {
+
 
     // Defines the JNDI context factory.
     public final static String JNDI_FACTORY="weblogic.jndi.WLInitialContextFactory";
@@ -17,9 +19,13 @@ public class MainAppQueueListener implements MessageListener{
     public final static String JMS_FACTORY="jms/RemoteConnectionFactory";
 
     // Defines the queue.
-    public final static String QUEUE="queue/MainIntegrationQueue";
+    public final static String QUEUE="queue/MainDeadLetterQueue";
 
-    public void createListener(){
+    private MessageProducer producer;
+    private Session session;
+
+    public void runPublisher(){
+
         Context jndiContext = null;
         String url = "t3://192.168.88.13:7001";
 
@@ -32,7 +38,7 @@ public class MainAppQueueListener implements MessageListener{
         ConnectionFactory connectionFactory = null;
         Destination dest = null;
         Connection connection = null;
-        MessageConsumer consumer = null;
+        //MessageProducer producer = null;
 
         try{
             jndiContext = new InitialContext(properties);
@@ -54,37 +60,34 @@ public class MainAppQueueListener implements MessageListener{
 
         try{
             connection = connectionFactory.createConnection();
-            Session session = connection.createSession(false,Session.AUTO_ACKNOWLEDGE);
-            consumer = session.createConsumer(dest);
-            consumer.setMessageListener(this);
+            //Session session = connection.createSession(false,Session.AUTO_ACKNOWLEDGE);
+            session = connection.createSession(false,Session.AUTO_ACKNOWLEDGE);
+            producer = session.createProducer(dest);
 
-            connection.start();
+            //TextMessage message = session.createTextMessage();
+
+            //int random = (int)(Math.random() * 50 + 1);
+            //message.setText("Testing Message Id:" + random);
+            //producer.send(message, new MainQueueMsgCompletionListener());
+
 
         } catch (JMSException e) {
             e.printStackTrace();
         }
-
     }
 
-    @Override
-    public void onMessage(Message message) {
-        System.out.println("onMessage from Main App Queue");
+    public void publishMessage(String messageStr) throws JMSException, InterruptedException {
+        TextMessage message = session.createTextMessage();
 
-        String msgText = "";
-        if (message instanceof TextMessage) {
-            try {
-                msgText = ((TextMessage)message).getText();
-            } catch (JMSException e) {
-                e.printStackTrace();
-            }
-        } else {
-            msgText = message.toString();
+        if(messageStr.isEmpty()) {
+            int random = (int)(Math.random() * 50 + 1);
+            messageStr = "Testing Message Id:" + random;
         }
-        System.out.println("Message: " + msgText);
 
-        //submit Message to AWS SQS
-        AWSSQSPublisher.getPublisher().publishMessage(msgText,new AWSSQSMsgCompletionListenerImpl());
+        String messageString = Util.getWrappedMessageString(messageStr);
+
+        message.setText(messageString);
+        producer.send(message,new MainQueueMsgCompletionListener());
 
     }
-
 }

@@ -6,6 +6,7 @@ import com.amazon.sqs.javamessaging.SQSConnectionFactory;
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
+import com.dsta.util.Util;
 
 import javax.jms.*;
 
@@ -51,19 +52,21 @@ public class AWSQSPublisherBase {
     public void publishMessage(String messageStr, AWSSQSMsgCompletionListener completionListener)  {
 
         TextMessage message = null;
+        String originalMessage = Util.getOriginalMessage(messageStr);
+
         try {
-            message = session.createTextMessage(messageStr);
+            message = session.createTextMessage(originalMessage);
         } catch (JMSException e) {
             completionListener.onException(messageStr,e);
-            //e.printStackTrace();
         }
 
         try {
             producer.send(message);
         } catch (JMSException e) {
             completionListener.onException(messageStr,e);
-            //e.printStackTrace();
         }
+
+        completionListener.onCompletion(message);
 
     }
 

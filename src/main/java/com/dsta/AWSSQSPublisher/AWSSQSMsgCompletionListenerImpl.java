@@ -1,5 +1,9 @@
 package com.dsta.AWSSQSPublisher;
 
+import com.dsta.DeadLetterQueuePublisher.DeadLetterQueuePublisher;
+import com.dsta.MainAppQueuePublisher.MainQueuePublisher;
+import com.dsta.util.Util;
+
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.TextMessage;
@@ -27,5 +31,27 @@ public class AWSSQSMsgCompletionListenerImpl implements AWSSQSMsgCompletionListe
     public void onException(String messageStr, Exception e) {
         System.out.println("Message couldn't sent to the AWS SQS");
         System.out.println("Message: " + messageStr);
+
+        if(Util.getFailedAttemptsCount(messageStr) == 3){
+
+            try {
+                DeadLetterQueuePublisher.getPublisher().publishMessage(messageStr);
+            } catch (JMSException ex) {
+                ex.printStackTrace();
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+        }
+        else{
+            String message = Util.incrementNoOfFailedAttempts(messageStr);
+            try {
+                MainQueuePublisher.getPublisher().publishMessage(message);
+            } catch (JMSException ex) {
+                ex.printStackTrace();
+            } catch (InterruptedException ex) {
+                ex.printStackTrace();
+            }
+        }
+
     }
 }

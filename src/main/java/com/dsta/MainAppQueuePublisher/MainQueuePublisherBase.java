@@ -1,5 +1,7 @@
 package com.dsta.MainAppQueuePublisher;
 
+import com.dsta.util.Util;
+
 import javax.jms.*;
 import java.util.Hashtable;
 import javax.naming.Context;
@@ -77,11 +79,12 @@ public class MainQueuePublisherBase {
 
         if(messageStr.isEmpty()) {
             int random = (int)(Math.random() * 50 + 1);
-            message.setText("Testing Message Id:" + random);
+            messageStr = "Testing Message Id:" + random;
         }
-        else {
-            message.setText(messageStr);
-        }
+
+        String messageString = Util.getWrappedMessageString(messageStr);
+
+        message.setText(messageString);
         producer.send(message,new MainQueueMsgCompletionListener());
 
     }

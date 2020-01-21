@@ -30,7 +30,7 @@ public class AWSSQSListener implements MessageListener {
             client.createQueue("MyAsyncDemoQueue");
         }
 
-        Session session = connection.createSession(false,Session.AUTO_ACKNOWLEDGE);
+        Session session = connection.createSession(false,Session.CLIENT_ACKNOWLEDGE);
 
         Queue queue = session.createQueue("MyAsyncDemoQueue");
 
@@ -58,5 +58,12 @@ public class AWSSQSListener implements MessageListener {
         }
 
         System.out.println("Message: " + msgText);
+
+        //handle client acknowledgement
+        try {
+            message.acknowledge();
+        } catch (JMSException e) {
+            e.printStackTrace();
+        }
     }
 }
