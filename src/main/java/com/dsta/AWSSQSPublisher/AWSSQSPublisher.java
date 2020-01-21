@@ -8,18 +8,29 @@ public class AWSSQSPublisher {
 
     private AWSSQSPublisher(){}
 
-    public static AWSQSPublisherBase getPublisher(){
+    private static void initPublisher() throws Exception {
         if(publisher == null){
             publisher = new AWSQSPublisherBase();
+            publisher.runPublisher();
+        }
+    }
+
+    public static void publishMessage(String message,AWSSQSMsgCompletionListenerImpl awssqsMsgCompletionListener){
+
+        try {
+            initPublisher();
+        } catch (Exception e) {
+            publisher = null;
+            awssqsMsgCompletionListener.onException(message,e);
+        }
+
+        if(publisher != null){
             try {
-                publisher.runPublisher();
+                publisher.publishMessage(message);
             } catch (JMSException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+                awssqsMsgCompletionListener.onException(message,e);
             }
         }
 
-        return publisher;
     }
 }

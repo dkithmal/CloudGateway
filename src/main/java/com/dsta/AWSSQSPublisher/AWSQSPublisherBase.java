@@ -17,7 +17,7 @@ public class AWSQSPublisherBase {
     private MessageProducer producer;
     private Session session;
 
-    public void runPublisher() throws JMSException,InterruptedException{
+    public void runPublisher() throws Exception{
 
         SQSConnectionFactory connectionFactory =
                 SQSConnectionFactory.builder()
@@ -49,24 +49,12 @@ public class AWSQSPublisherBase {
         Thread.sleep(1000);
     }
 
-    public void publishMessage(String messageStr, AWSSQSMsgCompletionListener completionListener)  {
+    public void publishMessage(String messageStr) throws JMSException {
 
         TextMessage message = null;
         String originalMessage = Util.getOriginalMessage(messageStr);
-
-        try {
-            message = session.createTextMessage(originalMessage);
-        } catch (JMSException e) {
-            completionListener.onException(messageStr,e);
-        }
-
-        try {
-            producer.send(message);
-        } catch (JMSException e) {
-            completionListener.onException(messageStr,e);
-        }
-
-        completionListener.onCompletion(message);
+        message = session.createTextMessage(originalMessage);
+        producer.send(message);
 
     }
 

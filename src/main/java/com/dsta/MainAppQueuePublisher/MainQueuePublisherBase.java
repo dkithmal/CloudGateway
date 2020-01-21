@@ -74,17 +74,9 @@ public class MainQueuePublisherBase {
         }
     }
 
-    public void publishMessage(String messageStr) throws JMSException, InterruptedException {
+    public void publishMessage(String messageStr) throws JMSException {
         TextMessage message = session.createTextMessage();
-
-        if(messageStr.isEmpty()) {
-            int random = (int)(Math.random() * 50 + 1);
-            messageStr = "Testing Message Id:" + random;
-        }
-
-        String messageString = Util.getWrappedMessageString(messageStr);
-
-        message.setText(messageString);
+        message.setText(messageStr);
         producer.send(message,new MainQueueMsgCompletionListener());
 
     }

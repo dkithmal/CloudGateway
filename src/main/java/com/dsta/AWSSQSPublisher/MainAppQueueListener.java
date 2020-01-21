@@ -83,7 +83,7 @@ public class MainAppQueueListener implements MessageListener{
         System.out.println("Message: " + msgText);
 
         //submit Message to AWS SQS
-        AWSSQSPublisher.getPublisher().publishMessage(msgText,new AWSSQSMsgCompletionListenerImpl());
+        AWSSQSPublisher.publishMessage(msgText,new AWSSQSMsgCompletionListenerImpl());
 
     }
 

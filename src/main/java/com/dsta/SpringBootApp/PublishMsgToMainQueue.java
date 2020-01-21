@@ -3,6 +3,7 @@ package com.dsta.SpringBootApp;
 
 import com.dsta.MainAppQueuePublisher.MainQueuePublisher;
 import com.dsta.MainAppQueuePublisher.MainQueuePublisherBase;
+import com.dsta.util.Util;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -14,7 +15,12 @@ public class PublishMsgToMainQueue {
         SpringApplication.run(PublishMsgToMainQueue.class, args);
 
         try {
-            MainQueuePublisher.getPublisher().publishMessage("");
+            String messageStr;
+            int random = (int)(Math.random() * 50 + 1);
+            messageStr = "Testing Message Id:" + random;
+
+            String messageString = Util.getWrappedMessageString(messageStr);
+            MainQueuePublisher.publishMessage(messageString);
         } catch (Exception e) {
             e.printStackTrace();
         }

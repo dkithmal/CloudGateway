@@ -87,7 +87,7 @@ public class DeadLetterQueuePublisherBase {
         String messageString = Util.getWrappedMessageString(messageStr);
 
         message.setText(messageString);
-        producer.send(message,new MainQueueMsgCompletionListener());
+        producer.send(message,new DeadLetterQueueMsgCompletionListener());
 
     }
 }

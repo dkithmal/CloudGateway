@@ -33,24 +33,14 @@ public class AWSSQSMsgCompletionListenerImpl implements AWSSQSMsgCompletionListe
         System.out.println("Message: " + messageStr);
 
         if(Util.getFailedAttemptsCount(messageStr) == 3){
-
-            try {
-                DeadLetterQueuePublisher.getPublisher().publishMessage(messageStr);
-            } catch (JMSException ex) {
-                ex.printStackTrace();
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
-            }
+            //TODO dk handle exception while not submit to the queue
+            DeadLetterQueuePublisher.publishMessage(messageStr);
         }
         else{
             String message = Util.incrementNoOfFailedAttempts(messageStr);
-            try {
-                MainQueuePublisher.getPublisher().publishMessage(message);
-            } catch (JMSException ex) {
-                ex.printStackTrace();
-            } catch (InterruptedException ex) {
-                ex.printStackTrace();
-            }
+
+            //TODO dk handle exception while not submit to the queue
+            MainQueuePublisher.publishMessage(message);
         }
 
     }
