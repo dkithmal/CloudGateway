@@ -1,7 +1,4 @@
-package com.dsta.DeadLetterQueuePublisher;
-
-import com.dsta.MainAppQueuePublisher.MainQueueMsgCompletionListener;
-import com.dsta.util.Util;
+package com.dsta.service.deadletterqueuepublisher;
 
 import javax.jms.*;
 import javax.naming.Context;

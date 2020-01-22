@@ -1,4 +1,4 @@
-package com.dsta.AWSSQSListener;
+package com.dsta.service.awssqslistener;
 
 import com.amazon.sqs.javamessaging.AmazonSQSMessagingClientWrapper;
 import com.amazon.sqs.javamessaging.SQSConnection;

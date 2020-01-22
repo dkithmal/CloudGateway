@@ -1,4 +1,4 @@
-package com.dsta.MainAppQueuePublisher;
+package com.dsta.service.mainappqueuepublisher;
 
 import javax.jms.CompletionListener;
 import javax.jms.JMSException;

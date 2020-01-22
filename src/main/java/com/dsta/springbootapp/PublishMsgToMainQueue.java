@@ -1,8 +1,7 @@
-package com.dsta.SpringBootApp;
+package com.dsta.springbootapp;
 
 
-import com.dsta.MainAppQueuePublisher.MainQueuePublisher;
-import com.dsta.MainAppQueuePublisher.MainQueuePublisherBase;
+import com.dsta.service.mainappqueuepublisher.MainQueuePublisher;
 import com.dsta.util.Util;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

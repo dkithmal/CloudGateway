@@ -1,4 +1,4 @@
-package com.dsta.DeadLetterQueuePublisher;
+package com.dsta.service.deadletterqueuepublisher;
 
 import javax.jms.CompletionListener;
 import javax.jms.JMSException;

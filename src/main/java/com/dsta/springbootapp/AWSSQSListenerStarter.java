@@ -1,6 +1,6 @@
-package com.dsta.SpringBootApp;
+package com.dsta.springbootapp;
 
-import com.dsta.AWSSQSListener.AWSSQSListener;
+import com.dsta.service.awssqslistener.AWSSQSListener;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

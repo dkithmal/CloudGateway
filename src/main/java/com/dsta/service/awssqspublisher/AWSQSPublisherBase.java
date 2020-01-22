@@ -1,4 +1,4 @@
-package com.dsta.AWSSQSPublisher;
+package com.dsta.service.awssqspublisher;
 
 import com.amazon.sqs.javamessaging.AmazonSQSMessagingClientWrapper;
 import com.amazon.sqs.javamessaging.SQSConnection;
@@ -6,7 +6,6 @@ import com.amazon.sqs.javamessaging.SQSConnectionFactory;
 import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
-import com.dsta.util.Util;
 
 import javax.jms.*;
 
@@ -29,14 +28,14 @@ public class AWSQSPublisherBase {
 
         AmazonSQSMessagingClientWrapper client = connection.getWrappedAmazonSQSClient();
 
-        if(!client.queueExists("MyAsyncDemoQueue")){
-            client.createQueue("MyAsyncDemoQueue");
+        if(!client.queueExists("POCDemoQueue")){
+            client.createQueue("POCDDemoQueue");
         }
 
         //Session session = connection.createSession(false,Session.AUTO_ACKNOWLEDGE);
         session = connection.createSession(false,Session.AUTO_ACKNOWLEDGE);
 
-        Queue queue = session.createQueue("MyAsyncDemoQueue");
+        Queue queue = session.createQueue("POCDDemoQueue");
 
         //MessageProducer producer = session.createProducer(queue);
         producer = session.createProducer(queue);

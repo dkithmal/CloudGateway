@@ -1,6 +1,4 @@
-package com.dsta.DeadLetterQueuePublisher;
-
-import com.dsta.MainAppQueuePublisher.MainQueuePublisherBase;
+package com.dsta.service.deadletterqueuepublisher;
 
 import javax.jms.JMSException;
 

@@ -1,12 +1,8 @@
-package com.dsta.AWSSQSPublisher;
+package com.dsta.service.awssqspublisher;
 
-import com.dsta.DeadLetterQueuePublisher.DeadLetterQueuePublisher;
-import com.dsta.MainAppQueuePublisher.MainQueuePublisher;
+import com.dsta.service.deadletterqueuepublisher.DeadLetterQueuePublisher;
+import com.dsta.service.mainappqueuepublisher.MainQueuePublisher;
 import com.dsta.util.Util;
-
-import javax.jms.JMSException;
-import javax.jms.Message;
-import javax.jms.TextMessage;
 
 public class AWSSQSMsgCompletionListenerImpl implements AWSSQSMsgCompletionListener{
 

@@ -1,6 +1,6 @@
-package com.dsta.SpringBootApp;
+package com.dsta.springbootapp;
 
-import com.dsta.AWSSQSPublisher.MainAppQueueListener;
+import com.dsta.service.awssqspublisher.MainAppQueueListener;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

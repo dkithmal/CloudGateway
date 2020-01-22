@@ -1,4 +1,4 @@
-package com.dsta.AWSSQSPublisher;
+package com.dsta.service.awssqspublisher;
 
 import com.dsta.util.Util;
 
