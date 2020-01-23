@@ -29,13 +29,13 @@ public class AWSQSPublisherBase {
         AmazonSQSMessagingClientWrapper client = connection.getWrappedAmazonSQSClient();
 
         if(!client.queueExists("POCDemoQueue")){
-            client.createQueue("POCDDemoQueue");
+            client.createQueue("POCDemoQueue");
         }
 
         //Session session = connection.createSession(false,Session.AUTO_ACKNOWLEDGE);
         session = connection.createSession(false,Session.AUTO_ACKNOWLEDGE);
 
-        Queue queue = session.createQueue("POCDDemoQueue");
+        Queue queue = session.createQueue("POCDemoQueue");
 
         //MessageProducer producer = session.createProducer(queue);
         producer = session.createProducer(queue);
